@@ -1,7 +1,10 @@
+/// <reference types="vitest" />
 
-import { defineConfig, UserConfig } from 'vite'
-import tsConfigPaths from 'vite-tsconfig-paths'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-  plugins: [tsConfigPaths()],
-}) satisfies UserConfig
+  plugins: [],
+  test: {
+    globals: true, // Corrigido: "globals" no lugar de "global"
+  },
+})

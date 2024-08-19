@@ -1,3 +1,4 @@
+import { Either, right } from '@/core/Either'
 import { Question } from '../../enterprise/entities/Question'
 import { QuestionsRepository } from '../repositories/QuestionsRepository'
 
@@ -5,9 +6,12 @@ interface GetQuestionBySlugUseCaseRequest {
   slug: string
 }
 
-type GetQuestionBySlugUseCaseResponse = {
-  question: Question
-}
+type GetQuestionBySlugUseCaseResponse = Either<
+  null,
+  {
+    question: Question
+  }
+>
 
 export class GetQuestionBySlugUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
@@ -21,8 +25,8 @@ export class GetQuestionBySlugUseCase {
       throw new Error('Question not found')
     }
 
-    return {
+    return right({
       question,
-    }
+    })
   }
 }

@@ -1,9 +1,9 @@
 import { Either, left, right } from '@/core/Either'
 import { UniqueEntityID } from '@/core/entities/UniqueEntityId'
+import { ResourceNotFoundError } from '../../../../core/errors/errors/resource-not-found-error'
 import { QuestionComment } from '../../enterprise/entities/QuestionComment'
 import { QuestionsCommentsRepository } from '../repositories/QuestionCommentsRepository'
 import { QuestionsRepository } from '../repositories/QuestionsRepository'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
 interface CommentOnQuestionUseCaseRequest {
   authorId: string
   questionId: string

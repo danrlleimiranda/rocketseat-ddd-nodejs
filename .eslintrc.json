@@ -1,7 +1,8 @@
 {
     "extends": [
       "@rocketseat/eslint-config/node",
-      "plugin:vitest-globals/recommended"
+      "plugin:vitest-globals/recommended",
+      "plugin:prettier/recommended"
     ],
     "rules": {
       "no-useless-constructor": "off",
@@ -10,4 +11,5 @@
     "env": {
       "vitest-globals/env": true
     }
+    
   }

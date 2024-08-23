@@ -1,16 +1,19 @@
-import { Entity } from '@/core/entities/Entity'
+import { AggregateRoot } from '@/core/entities/AggregateRoot'
 import { UniqueEntityID } from '@/core/entities/UniqueEntityId'
 import { Optional } from '@/core/types/optional'
+import { AnswerCreatedEvent } from '../events/answer-created-event'
+import { AnswerAttachmentList } from './AnswerAttachmentList'
 
 export interface AnswerProps {
   authorId: UniqueEntityID
   questionId: UniqueEntityID
+  attachments: AnswerAttachmentList
   content: string
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Answer extends Entity<AnswerProps> {
+export class Answer extends AggregateRoot<AnswerProps> {
   get authorId() {
     return this.props.authorId
   }
@@ -25,6 +28,15 @@ export class Answer extends Entity<AnswerProps> {
 
   set content(content: string) {
     this.props.content = content
+    this.touch()
+  }
+
+  get attachments() {
+    return this.attachments
+  }
+
+  set attachments(attachments: AnswerAttachmentList) {
+    this.attachments = attachments
     this.touch()
   }
 
@@ -45,16 +57,22 @@ export class Answer extends Entity<AnswerProps> {
   }
 
   static create(
-    props: Optional<AnswerProps, 'createdAt'>,
+    props: Optional<AnswerProps, 'createdAt' | 'attachments'>,
     id?: UniqueEntityID,
   ) {
     const answer = new Answer(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
+        attachments: props.attachments ?? new AnswerAttachmentList([]),
       },
       id,
     )
+
+    const isNewAnswer = !id
+    if (isNewAnswer) {
+      answer.addDomainEvent(new AnswerCreatedEvent(answer))
+    }
 
     return answer
   }

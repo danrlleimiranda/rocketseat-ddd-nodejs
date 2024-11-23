@@ -5,11 +5,9 @@ export class Left<L, R> {
   constructor(value: L) {
     this.value = value
   }
-
   isRight(): this is Right<L, R> {
     return false
   }
-
   isLeft(): this is Left<L, R> {
     return true
   }
@@ -22,11 +20,9 @@ export class Right<L, R> {
   constructor(value: R) {
     this.value = value
   }
-
   isRight(): this is Right<L, R> {
     return true
   }
-
   isLeft(): this is Left<L, R> {
     return false
   }
